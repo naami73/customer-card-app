@@ -11,6 +11,15 @@
 <div class="card"><h2>③ 顧客を検索</h2><input id="search" placeholder="コード・呼び名・キーワードで検索"><div id="count" class="stat">0人</div><div id="results"></div><hr style="border:0;border-top:1px solid #eee;margin:16px 0"><h2>AIメモ整理（手動）</h2><textarea id="aiNote" placeholder="個人が特定されないメモだけ入力"></textarea><button id="copyPrompt">AIに送る文章をコピー</button><p class="muted">コピーした文章をChatGPTへ自分で貼り付けます。自動送信はしません。</p><hr style="border:0;border-top:1px solid #eee;margin:16px 0"><h2>バックアップ</h2><div class="row"><button class="secondary" id="exportBtn">書き出す</button><button class="secondary" id="importBtn">読み込む</button></div><input id="fileInput" type="file" accept="application/json,.json" class="hidden"><p class="muted">バックアップは顧客メモを含むため、共有や保存先に注意してください。</p><button id="deleteAll" class="danger">全データを削除</button></div></div>
 </main><div id="toast"></div>
 <script>
+window.addEventListener('error', function(e) {
+  var t = document.getElementById('toast');
+  if (t) {
+    t.textContent = 'エラー: ' + e.message;
+    t.style.display = 'block';
+  }
+});
+</script>
+  <script>
 const DB_NAME='customer_card_local_v2', STORE='records';let db,customers=[],memos=[],selectedTags=[];const $=id=>document.getElementById(id);const tagNames=['趣味','仕事','旅行','食べ物','野球','サーフィン','次回確認','要フォロー'];
 function toast(s){const t=$('toast');t.textContent=s;t.style.display='block';setTimeout(()=>t.style.display='none',2300)}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
